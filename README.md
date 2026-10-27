@@ -1,5 +1,8 @@
 # zelvar-validate
 
+![npm](https://img.shields.io/npm/dt/zelvar-validate)
+![release](https://img.shields.io/github/v/release/zelvarys/zelvar-validate)
+
 Fast, type-safe validation library with async, conditional, nested schema, and batch support. Zero dependencies. Works in Node.js and browser.
 
 ## Installation
