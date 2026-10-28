@@ -1,14 +1,34 @@
 # zelvar-validate
 
-![npm](https://img.shields.io/npm/dt/zelvar-validate)
-![release](https://img.shields.io/github/v/release/zelvarys/zelvar-validate)
+[![npm version](https://img.shields.io/npm/v/zelvar-validate)](https://www.npmjs.com/package/zelvar-validate)
+[![npm downloads](https://img.shields.io/npm/dt/zelvar-validate)](https://www.npmjs.com/package/zelvar-validate)
+[![CI](https://github.com/zelvarys/zelvar-validate/actions/workflows/ci.yml/badge.svg)](https://github.com/zelvarys/zelvar-validate/actions/workflows/ci.yml)
+[![release](https://img.shields.io/github/v/release/zelvarys/zelvar-validate)](https://github.com/zelvarys/zelvar-validate/releases)
+[![license](https://img.shields.io/npm/l/zelvar-validate)](LICENSE)
 
-Fast, type-safe validation library with async, conditional, nested schema, and batch support. Zero dependencies. Works in Node.js and browser.
+Fast, type-safe validation library with async, conditional, nested schema, and batch support. Zero runtime dependencies. Works in Node.js 14 and newer and in modern browsers.
+
+The package ships ESM and CommonJS builds with TypeScript declarations.
+
+## Documentation
+
+- [Getting started](docs/getting-started.md)
+- [API reference](docs/api.md)
+- [Recipes](docs/recipes.md)
+- [Release process](docs/release.md)
+- [Examples](examples)
 
 ## Installation
 
 ```bash
 npm install zelvar-validate
+```
+
+Using another package manager:
+
+```bash
+yarn add zelvar-validate
+pnpm add zelvar-validate
 ```
 
 ## Quick Start
@@ -55,7 +75,7 @@ rules.postalCode('SW1A 1AA', 'UK'); // true (UK)
 
 // IP address
 rules.ip('192.168.1.1'); // true (IPv4 default)
-rules.ip('::1'); // true (IPv6)
+rules.ip('::1', 6); // true (IPv6)
 rules.ip('999.999.999.999'); // false
 ```
 
@@ -87,15 +107,20 @@ if (validator.isValid()) {
 
 ### Available Chainable Methods
 
-| Method                   | Description                  |
-| ------------------------ | ---------------------------- |
-| `.email()`               | Validates email format       |
-| `.phone()`               | Validates phone number       |
-| `.url()`                 | Validates URL                |
-| `.strongPassword()`      | Password strength check      |
-| `.custom(fn, msg)`       | Custom validation function   |
-| `.if(condition, fn)`     | Apply rules conditionally    |
-| `.unless(condition, fn)` | Apply rules unless condition |
+| Method                   | Description                                 |
+| ------------------------ | ------------------------------------------- |
+| `.email()`               | Validates email format                      |
+| `.phone()`               | Validates phone number                      |
+| `.url()`                 | Validates URL                               |
+| `.strongPassword()`      | Password strength check                     |
+| `.custom(fn, msg)`       | Custom synchronous validation function      |
+| `.customAsync(fn, msg)`  | Register an asynchronous validation rule    |
+| `.if(condition, fn)`     | Apply rules conditionally                   |
+| `.unless(condition, fn)` | Apply rules unless condition                |
+| `.isValid()`             | Check the synchronous result                |
+| `.isValidAsync()`        | Run asynchronous rules and check the result |
+| `.getErrors()`           | Get a copy of the collected errors          |
+| `.getValue()`            | Get the validated value                     |
 
 ### Getting the Value
 
@@ -128,6 +153,8 @@ console.log(validator.getErrors());
 | `phone`          | "Invalid phone number"                                           |
 | `url`            | "Invalid URL"                                                    |
 | `strongPassword` | "Password must contain uppercase, lowercase, number, and symbol" |
+| `custom`         | The message passed to `.custom()`                                |
+| `customAsync`    | The message passed to `.customAsync()`                           |
 
 ## Schema Validation
 
@@ -205,6 +232,7 @@ console.log(result.errors.total[0]); // "Total must be greater than 0"
 | `custom`         | function | Custom validation function           |
 | `customMessage`  | string   | Custom message for custom validation |
 | `message`        | string   | Custom message for required failure  |
+| `nested`         | object   | Nested schema definition             |
 
 ## Custom Rules
 
@@ -369,9 +397,15 @@ import { nestedSchema } from 'zelvar-validate';
 const userSchema = nestedSchema({
   name: { type: 'string', required: true },
   address: {
-    street: { type: 'string', required: true },
-    city: { type: 'string', required: true },
-    zipCode: { type: 'string', pattern: /^\d{5}$/, patternMessage: 'Invalid zip code' }
+    nested: {
+      street: { type: 'string', required: true },
+      city: { type: 'string', required: true },
+      zipCode: {
+        type: 'string',
+        pattern: /^\d{5}$/,
+        patternMessage: 'Invalid zip code'
+      }
+    }
   }
 });
 
@@ -706,7 +740,7 @@ import { batchValidate } from 'zelvar-validate/batch';
 <script type="importmap">
   {
     "imports": {
-      "zelvar-validate": "https://unpkg.com/zelvar-validate@1.0.0/dist/browser.js"
+      "zelvar-validate": "https://unpkg.com/zelvar-validate@1/dist/browser.js"
     }
   }
 </script>
@@ -717,3 +751,34 @@ import { batchValidate } from 'zelvar-validate/batch';
   console.log(result);
 </script>
 ```
+
+## Development
+
+```bash
+git clone https://github.com/zelvarys/zelvar-validate.git
+cd zelvar-validate
+npm install
+npm run check
+```
+
+Run `npm run build` before running the files in `examples/`.
+
+## Contributing
+
+Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) before
+opening a pull request. Use the issue templates for bug reports and feature
+requests.
+
+## Security
+
+Report vulnerabilities privately through
+[GitHub Security Advisories](https://github.com/zelvarys/zelvar-validate/security/advisories/new).
+See [SECURITY.md](SECURITY.md) for details.
+
+## Support
+
+See [SUPPORT.md](SUPPORT.md) for documentation links and support options.
+
+## License
+
+[MIT](LICENSE) (c) 2026 Zelvarys
