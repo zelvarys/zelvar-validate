@@ -22,7 +22,7 @@ export class Validator<T = any> {
     return this;
   }
 
-  async customAsync(rule: (value: T) => Promise<boolean>, message: string): Promise<this> {
+  customAsync(rule: (value: T) => Promise<boolean>, message: string): this {
     this.asyncRules.push({ fn: rule, message });
     return this;
   }
@@ -31,25 +31,31 @@ export class Validator<T = any> {
     if (this.errors.length > 0) {
       return false;
     }
-    
+
     for (const rule of this.asyncRules) {
       const isValid = await rule.fn(this.value);
       if (!isValid) {
         this._addError('customAsync', rule.message);
       }
     }
-    
+
     return this.errors.length === 0;
   }
 
-  if(condition: (value: T) => boolean, ruleFn: (validator: Validator<T>) => Validator<T>): this {
+  if(
+    condition: (value: T) => boolean,
+    ruleFn: (validator: Validator<T>) => Validator<T>
+  ): this {
     if (condition(this.value)) {
       ruleFn(this);
     }
     return this;
   }
 
-  unless(condition: (value: T) => boolean, ruleFn: (validator: Validator<T>) => Validator<T>): this {
+  unless(
+    condition: (value: T) => boolean,
+    ruleFn: (validator: Validator<T>) => Validator<T>
+  ): this {
     if (!condition(this.value)) {
       ruleFn(this);
     }
@@ -79,7 +85,10 @@ export class Validator<T = any> {
 
   strongPassword(): this {
     if (!ruleFns.strongPassword(this.value)) {
-      this._addError('strongPassword', 'Password must contain uppercase, lowercase, number, and symbol');
+      this._addError(
+        'strongPassword',
+        'Password must contain uppercase, lowercase, number, and symbol'
+      );
     }
     return this;
   }

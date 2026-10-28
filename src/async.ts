@@ -1,10 +1,22 @@
 import { validate, Validator, CustomMessages } from './validator.js';
 
+export interface AsyncValidationResult<T> {
+  valid: boolean;
+  errors: string[];
+  value: T;
+}
+
+export interface AsyncValidator<T> {
+  addRule(ruleFn: (validator: Validator<T>) => Validator<T>): AsyncValidator<T>;
+  addAsyncRule(rule: (value: T) => Promise<boolean>, message: string): AsyncValidator<T>;
+  validate(): Promise<AsyncValidationResult<T>>;
+}
+
 export async function validateAsync<T>(
   value: T,
   rules: (validator: Validator<T>) => Validator<T>,
   customMessages?: CustomMessages
-): Promise<{ valid: boolean; errors: string[]; value: T }> {
+): Promise<AsyncValidationResult<T>> {
   const validator = validate(value, customMessages);
   rules(validator);
   const valid = await validator.isValidAsync();
@@ -15,21 +27,29 @@ export async function validateAsync<T>(
   };
 }
 
-export function createAsyncValidator<T>(value: T, customMessages?: CustomMessages) {
+export function createAsyncValidator<T>(
+  value: T,
+  customMessages?: CustomMessages
+): AsyncValidator<T> {
   const validator = validate(value, customMessages);
-  return {
-    addRule: (ruleFn: (validator: Validator<T>) => Validator<T>) => {
+
+  const api: AsyncValidator<T> = {
+    addRule(ruleFn) {
       ruleFn(validator);
-      return createAsyncValidator(value, customMessages);
+      return api;
     },
-    addAsyncRule: (rule: (value: T) => Promise<boolean>, message: string) => {
+    addAsyncRule(rule, message) {
       validator.customAsync(rule, message);
-      return createAsyncValidator(value, customMessages);
+      return api;
     },
-    validate: async () => ({
-      valid: await validator.isValidAsync(),
-      errors: validator.getErrors(),
-      value: validator.getValue()
-    })
+    async validate() {
+      return {
+        valid: await validator.isValidAsync(),
+        errors: validator.getErrors(),
+        value: validator.getValue()
+      };
+    }
   };
+
+  return api;
 }
