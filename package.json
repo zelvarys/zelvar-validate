@@ -2,47 +2,114 @@
   "name": "zelvar-validate",
   "version": "1.0.1",
   "description": "Fast and type-safe validation library with async, conditional, nested schema, and batch support",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "browser": "./dist/browser.js",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     },
     "./rules": {
-      "import": "./dist/rules.js",
-      "types": "./dist/rules.d.ts"
+      "import": {
+        "types": "./dist/rules.d.ts",
+        "default": "./dist/rules.js"
+      },
+      "require": {
+        "types": "./dist/rules.d.cts",
+        "default": "./dist/rules.cjs"
+      }
     },
     "./schema": {
-      "import": "./dist/schema.js",
-      "types": "./dist/schema.d.ts"
+      "import": {
+        "types": "./dist/schema.d.ts",
+        "default": "./dist/schema.js"
+      },
+      "require": {
+        "types": "./dist/schema.d.cts",
+        "default": "./dist/schema.cjs"
+      }
     },
     "./async": {
-      "import": "./dist/async.js",
-      "types": "./dist/async.d.ts"
+      "import": {
+        "types": "./dist/async.d.ts",
+        "default": "./dist/async.js"
+      },
+      "require": {
+        "types": "./dist/async.d.cts",
+        "default": "./dist/async.cjs"
+      }
     },
     "./conditional": {
-      "import": "./dist/conditional.js",
-      "types": "./dist/conditional.d.ts"
+      "import": {
+        "types": "./dist/conditional.d.ts",
+        "default": "./dist/conditional.js"
+      },
+      "require": {
+        "types": "./dist/conditional.d.cts",
+        "default": "./dist/conditional.cjs"
+      }
     },
     "./nested": {
-      "import": "./dist/nested.js",
-      "types": "./dist/nested.d.ts"
+      "import": {
+        "types": "./dist/nested.d.ts",
+        "default": "./dist/nested.js"
+      },
+      "require": {
+        "types": "./dist/nested.d.cts",
+        "default": "./dist/nested.cjs"
+      }
     },
     "./batch": {
-      "import": "./dist/batch.js",
-      "types": "./dist/batch.d.ts"
+      "import": {
+        "types": "./dist/batch.d.ts",
+        "default": "./dist/batch.js"
+      },
+      "require": {
+        "types": "./dist/batch.d.cts",
+        "default": "./dist/batch.cjs"
+      }
     },
     "./browser": {
-      "import": "./dist/browser.js",
-      "types": "./dist/browser.d.ts"
-    }
+      "import": {
+        "types": "./dist/browser.d.ts",
+        "default": "./dist/browser.js"
+      },
+      "require": {
+        "types": "./dist/browser.d.cts",
+        "default": "./dist/browser.cjs"
+      }
+    },
+    "./package.json": "./package.json"
   },
+  "files": [
+    "dist",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": false,
   "scripts": {
-    "build": "tsc",
-    "test": "node test/test.js",
-    "prepublishOnly": "npm run build"
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "pretest": "npm run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "npm run build && vitest run --coverage",
+    "check:package": "publint && attw --pack .",
+    "check": "npm run lint && npm run format:check && npm run typecheck && npm test && npm run check:package",
+    "prepublishOnly": "npm run check"
   },
   "keywords": [
     "validation",
@@ -55,17 +122,36 @@
     "batch",
     "email",
     "phone",
-    "url"
+    "url",
+    "form-validation",
+    "zero-dependencies"
   ],
   "author": "Zelvarys",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zelvarys/zelvar-validate"
+    "url": "git+https://github.com/zelvarys/zelvar-validate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zelvarys/zelvar-validate/issues"
+  },
+  "homepage": "https://github.com/zelvarys/zelvar-validate#readme",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   },
   "devDependencies": {
-    "typescript": "^5.0.0",
-    "@types/node": "^20.0.0"
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.19.2",
+    "@vitest/coverage-v8": "^4.1.12",
+    "eslint": "^10.13.0",
+    "prettier": "^3.9.10",
+    "publint": "^0.3.25",
+    "tsup": "^9.0.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.72.1",
+    "vitest": "^4.1.12"
   },
   "engines": {
     "node": ">=14.0.0"
