@@ -1,0 +1,33 @@
+name: Feature request
+description: Suggest a new rule, helper, or API improvement
+title: '[Feature]: '
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the suggestion. Please describe the problem before the proposed API.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What are you trying to validate, and what is missing today?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: Describe the API or behavior you would like.
+      render: js
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context

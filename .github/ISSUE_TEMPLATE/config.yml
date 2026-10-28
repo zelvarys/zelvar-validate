@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://github.com/zelvarys/zelvar-validate/tree/main/docs
+    about: Read the guides and API reference before opening an issue.
+  - name: Security report
+    url: https://github.com/zelvarys/zelvar-validate/security/advisories/new
+    about: Report vulnerabilities privately. Do not open a public issue.
