@@ -1,0 +1,117 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+concurrency:
+  group: release-main
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Publish release
+    if: github.repository == 'zelvarys/zelvar-validate'
+    runs-on: ubuntu-latest
+    environment: npm
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Use latest npm
+        run: npm install --global npm@latest
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Read version state
+        id: info
+        run: node scripts/release-info.mjs >> "$GITHUB_OUTPUT"
+
+      - name: Check GitHub release state
+        id: state
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.info.outputs.version }}
+        run: |
+          release_exists=true
+          if ! gh release view "v$VERSION" > /dev/null 2>&1; then
+            release_exists=false
+          fi
+
+          should_run=false
+          if [ "${{ steps.info.outputs.needs_tag }}" = "true" ] || \
+             [ "${{ steps.info.outputs.needs_publish }}" = "true" ] || \
+             [ "$release_exists" = "false" ]; then
+            should_run=true
+          fi
+
+          {
+            echo "release_exists=$release_exists"
+            echo "should_run=$should_run"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Lint
+        if: steps.state.outputs.should_run == 'true'
+        run: npm run lint
+
+      - name: Check formatting
+        if: steps.state.outputs.should_run == 'true'
+        run: npm run format:check
+
+      - name: Type check
+        if: steps.state.outputs.should_run == 'true'
+        run: npm run typecheck
+
+      - name: Test
+        if: steps.state.outputs.should_run == 'true'
+        run: npm test
+
+      - name: Check package
+        if: steps.state.outputs.should_run == 'true'
+        run: npm run check:package
+
+      - name: Create git tag
+        if: steps.info.outputs.needs_tag == 'true'
+        env:
+          VERSION: ${{ steps.info.outputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag --annotate "v$VERSION" --message "v$VERSION"
+          git push origin "v$VERSION"
+
+      - name: Publish to npm
+        if: steps.info.outputs.needs_publish == 'true'
+        env:
+          DIST_TAG: ${{ steps.info.outputs.dist_tag }}
+        run: npm publish --access public --provenance --tag "$DIST_TAG"
+
+      - name: Create GitHub release
+        if: steps.state.outputs.should_run == 'true' && steps.state.outputs.release_exists == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.info.outputs.version }}
+          PRERELEASE: ${{ steps.info.outputs.is_prerelease }}
+        run: |
+          args=(--verify-tag --title "v$VERSION" --generate-notes)
+          if [ "$PRERELEASE" = "true" ]; then
+            args+=(--prerelease)
+          else
+            args+=(--latest)
+          fi
+          gh release create "v$VERSION" "${args[@]}"
