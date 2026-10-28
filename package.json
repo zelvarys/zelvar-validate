@@ -94,6 +94,31 @@
     "dist",
     "CHANGELOG.md"
   ],
+  "typesVersions": {
+    "*": {
+      "rules": [
+        "dist/rules.d.ts"
+      ],
+      "schema": [
+        "dist/schema.d.ts"
+      ],
+      "async": [
+        "dist/async.d.ts"
+      ],
+      "conditional": [
+        "dist/conditional.d.ts"
+      ],
+      "nested": [
+        "dist/nested.d.ts"
+      ],
+      "batch": [
+        "dist/batch.d.ts"
+      ],
+      "browser": [
+        "dist/browser.d.ts"
+      ]
+    }
+  },
   "sideEffects": false,
   "scripts": {
     "build": "tsup",
