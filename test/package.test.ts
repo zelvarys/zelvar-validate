@@ -23,14 +23,7 @@ describe('built package', () => {
   });
 
   it('exposes every documented subpath in both formats', async () => {
-    const subpaths = [
-      'schema',
-      'async',
-      'conditional',
-      'nested',
-      'batch',
-      'browser'
-    ];
+    const subpaths = ['schema', 'async', 'conditional', 'nested', 'batch', 'browser'];
 
     for (const subpath of subpaths) {
       const esm = await import(`../dist/${subpath}.js`);

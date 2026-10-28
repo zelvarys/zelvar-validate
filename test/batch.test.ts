@@ -1,9 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import {
-  batchResultSummary,
-  batchValidate,
-  batchValidateAsync
-} from '../src/index.js';
+import { batchResultSummary, batchValidate, batchValidateAsync } from '../src/index.js';
 
 describe('batchValidate', () => {
   it('validates multiple fields', () => {
@@ -68,9 +64,7 @@ describe('batchResultSummary', () => {
       validCount: 1,
       invalidCount: 1,
       errors: {
-        password: [
-          'Password must contain uppercase, lowercase, number, and symbol'
-        ]
+        password: ['Password must contain uppercase, lowercase, number, and symbol']
       }
     });
   });

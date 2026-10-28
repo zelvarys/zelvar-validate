@@ -11,11 +11,7 @@ function selectProvidedDefinition(
       continue;
     }
 
-    if (
-      fieldRules.nested &&
-      typeof data[field] === 'object' &&
-      data[field] !== null
-    ) {
+    if (fieldRules.nested && typeof data[field] === 'object' && data[field] !== null) {
       selected[field] = {
         ...fieldRules,
         nested: selectProvidedDefinition(fieldRules.nested, data[field])
@@ -44,9 +40,11 @@ export function nestedSchema<T extends Record<string, any>>(
       };
     },
 
-    partial(
-      data: Partial<T>
-    ): { valid: boolean; errors: Record<string, string[]>; data: Partial<T> } {
+    partial(data: Partial<T>): {
+      valid: boolean;
+      errors: Record<string, string[]>;
+      data: Partial<T>;
+    } {
       const partialDefinition = selectProvidedDefinition(
         definition,
         data as Record<string, any>
@@ -67,7 +65,7 @@ export function deepValidate<T extends Record<string, any>>(
   path: string = ''
 ): { valid: boolean; errors: Record<string, string[]> } {
   const result = schema(definition).validate(data);
-  
+
   const prefix = path ? `${path}.` : '';
   const prefixedErrors: Record<string, string[]> = {};
   for (const [key, errors] of Object.entries(result.errors)) {
@@ -75,7 +73,7 @@ export function deepValidate<T extends Record<string, any>>(
       ? errors.map((message) => `${prefix}${message}`)
       : errors;
   }
-  
+
   return {
     valid: result.valid,
     errors: prefixedErrors

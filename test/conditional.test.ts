@@ -1,9 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import {
-  conditional,
-  createConditionalValidator,
-  validate
-} from '../src/index.js';
+import { conditional, createConditionalValidator, validate } from '../src/index.js';
 
 describe('conditional', () => {
   it('applies only matching conditions', () => {
@@ -16,10 +12,7 @@ describe('conditional', () => {
       {
         condition: (value) => /^[a-z]+$/.test(value),
         rules: (validator) =>
-          validator.custom(
-            () => false,
-            'Password must contain uppercase or numbers'
-          )
+          validator.custom(() => false, 'Password must contain uppercase or numbers')
       }
     ]);
 

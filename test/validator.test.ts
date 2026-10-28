@@ -25,10 +25,7 @@ describe('Validator', () => {
       .email()
       .url();
 
-    expect(validator.getErrors()).toEqual([
-      'Enter a valid email',
-      'Enter a valid URL'
-    ]);
+    expect(validator.getErrors()).toEqual(['Enter a valid email', 'Enter a valid URL']);
   });
 
   it('validates phone, URL, and password', () => {
@@ -57,11 +54,10 @@ describe('Validator', () => {
   });
 
   it('applies rules conditionally with if', () => {
-    const admin = validate('admin123')
-      .if(
-        (value) => value.includes('admin'),
-        (validator) => validator.strongPassword()
-      );
+    const admin = validate('admin123').if(
+      (value) => value.includes('admin'),
+      (validator) => validator.strongPassword()
+    );
 
     expect(admin.isValid()).toBe(false);
   });

@@ -16,9 +16,7 @@ npm install zelvar-validate
 ```javascript
 import { validate } from 'zelvar-validate';
 
-const result = validate('user@example.com')
-  .email()
-  .isValid();
+const result = validate('user@example.com').email().isValid();
 
 console.log(result); // true
 ```
@@ -31,34 +29,34 @@ Import individual rules for simple validation:
 import { rules } from 'zelvar-validate';
 
 // Email validation
-rules.email('john@example.com');     // true
-rules.email('invalid-email');        // false
+rules.email('john@example.com'); // true
+rules.email('invalid-email'); // false
 
 // Phone number (international format)
-rules.phone('+1234567890');          // true
-rules.phone('+1 (555) 123-4567');    // true
-rules.phone('abc123');               // false
+rules.phone('+1234567890'); // true
+rules.phone('+1 (555) 123-4567'); // true
+rules.phone('abc123'); // false
 
 // URL validation
-rules.url('https://google.com');     // true
-rules.url('http://localhost:3000');  // true
-rules.url('not-a-url');              // false
+rules.url('https://google.com'); // true
+rules.url('http://localhost:3000'); // true
+rules.url('not-a-url'); // false
 
 // Strong password (min 8 chars, uppercase, lowercase, number, special char)
-rules.strongPassword('Pass123!');    // true
-rules.strongPassword('weak');        // false
+rules.strongPassword('Pass123!'); // true
+rules.strongPassword('weak'); // false
 rules.strongPassword('password123'); // false
 
 // Postal code by country
-rules.postalCode('90210');           // true (US default)
-rules.postalCode('90210-1234');      // true (US zip+4)
-rules.postalCode('M5V 2T6', 'CA');   // true (Canada)
-rules.postalCode('SW1A 1AA', 'UK');  // true (UK)
+rules.postalCode('90210'); // true (US default)
+rules.postalCode('90210-1234'); // true (US zip+4)
+rules.postalCode('M5V 2T6', 'CA'); // true (Canada)
+rules.postalCode('SW1A 1AA', 'UK'); // true (UK)
 
 // IP address
-rules.ip('192.168.1.1');             // true (IPv4 default)
-rules.ip('::1');                     // true (IPv6)
-rules.ip('999.999.999.999');         // false
+rules.ip('192.168.1.1'); // true (IPv4 default)
+rules.ip('::1'); // true (IPv6)
+rules.ip('999.999.999.999'); // false
 ```
 
 ## Chainable Validator
@@ -68,18 +66,16 @@ The chainable validator allows multiple validations on the same value:
 ```javascript
 import { validate } from 'zelvar-validate';
 
-const validator = validate('john@example.com')
-  .email();
+const validator = validate('john@example.com').email();
 
-console.log(validator.isValid());   // true
+console.log(validator.isValid()); // true
 console.log(validator.getErrors()); // []
 ```
 
 ### Checking Validation Result
 
 ```javascript
-const validator = validate('invalid')
-  .email();
+const validator = validate('invalid').email();
 
 if (validator.isValid()) {
   console.log('Email is valid!');
@@ -91,21 +87,20 @@ if (validator.isValid()) {
 
 ### Available Chainable Methods
 
-| Method | Description |
-|--------|-------------|
-| `.email()` | Validates email format |
-| `.phone()` | Validates phone number |
-| `.url()` | Validates URL |
-| `.strongPassword()` | Password strength check |
-| `.custom(fn, msg)` | Custom validation function |
-| `.if(condition, fn)` | Apply rules conditionally |
+| Method                   | Description                  |
+| ------------------------ | ---------------------------- |
+| `.email()`               | Validates email format       |
+| `.phone()`               | Validates phone number       |
+| `.url()`                 | Validates URL                |
+| `.strongPassword()`      | Password strength check      |
+| `.custom(fn, msg)`       | Custom validation function   |
+| `.if(condition, fn)`     | Apply rules conditionally    |
 | `.unless(condition, fn)` | Apply rules unless condition |
 
 ### Getting the Value
 
 ```javascript
-const validator = validate('hello@world.com')
-  .email();
+const validator = validate('hello@world.com').email();
 
 console.log(validator.getValue()); // 'hello@world.com'
 ```
@@ -119,8 +114,7 @@ import { validate } from 'zelvar-validate';
 
 const validator = validate('', {
   email: 'Please enter a valid email address'
-})
-  .email();
+}).email();
 
 console.log(validator.getErrors());
 // ['Please enter a valid email address']
@@ -128,11 +122,11 @@ console.log(validator.getErrors());
 
 ### Available Error Message Keys
 
-| Key | Default Message |
-|-----|-----------------|
-| `email` | "Invalid email address" |
-| `phone` | "Invalid phone number" |
-| `url` | "Invalid URL" |
+| Key              | Default Message                                                  |
+| ---------------- | ---------------------------------------------------------------- |
+| `email`          | "Invalid email address"                                          |
+| `phone`          | "Invalid phone number"                                           |
+| `url`            | "Invalid URL"                                                    |
 | `strongPassword` | "Password must contain uppercase, lowercase, number, and symbol" |
 
 ## Schema Validation
@@ -154,16 +148,16 @@ const result = userSchema.validate({
   email: 'john@example.com'
 });
 
-console.log(result.valid);   // true
-console.log(result.errors);  // {}
+console.log(result.valid); // true
+console.log(result.errors); // {}
 ```
 
 ### Schema with Pattern Validation
 
 ```javascript
 const productSchema = schema({
-  sku: { 
-    type: 'string', 
+  sku: {
+    type: 'string',
     required: true,
     pattern: /^[A-Z]{3}-\d{4}$/,
     patternMessage: 'SKU must be format XXX-0000'
@@ -171,7 +165,7 @@ const productSchema = schema({
 });
 
 const result = productSchema.validate({ sku: 'ABC-123' });
-console.log(result.valid);   // false
+console.log(result.valid); // false
 console.log(result.errors.sku[0]);
 ```
 
@@ -187,30 +181,30 @@ const orderSchema = schema({
 });
 
 const result = orderSchema.validate({ total: '-10' });
-console.log(result.valid);   // false
-console.log(result.errors.total[0]);  // "Total must be greater than 0"
+console.log(result.valid); // false
+console.log(result.errors.total[0]); // "Total must be greater than 0"
 ```
 
 ### Schema Types Reference
 
-| Type | Description | Validation |
-|------|-------------|------------|
-| `'string'` | Any string | `typeof value === 'string'` |
-| `'email'` | Email format | Uses `rules.email()` |
-| `'phone'` | Phone number | Uses `rules.phone()` |
-| `'url'` | URL format | Uses `rules.url()` |
+| Type       | Description  | Validation                  |
+| ---------- | ------------ | --------------------------- |
+| `'string'` | Any string   | `typeof value === 'string'` |
+| `'email'`  | Email format | Uses `rules.email()`        |
+| `'phone'`  | Phone number | Uses `rules.phone()`        |
+| `'url'`    | URL format   | Uses `rules.url()`          |
 
 ### Schema Options Reference
 
-| Option | Type | Description |
-|--------|------|-------------|
-| `type` | string | One of the types above |
-| `required` | boolean | If true, value cannot be empty |
-| `pattern` | RegExp | Regex pattern to match |
-| `patternMessage` | string | Custom message for pattern failure |
-| `custom` | function | Custom validation function |
-| `customMessage` | string | Custom message for custom validation |
-| `message` | string | Custom message for required failure |
+| Option           | Type     | Description                          |
+| ---------------- | -------- | ------------------------------------ |
+| `type`           | string   | One of the types above               |
+| `required`       | boolean  | If true, value cannot be empty       |
+| `pattern`        | RegExp   | Regex pattern to match               |
+| `patternMessage` | string   | Custom message for pattern failure   |
+| `custom`         | function | Custom validation function           |
+| `customMessage`  | string   | Custom message for custom validation |
+| `message`        | string   | Custom message for required failure  |
 
 ## Custom Rules
 
@@ -221,11 +215,10 @@ Create your own validation rules using the `.custom()` method.
 ```javascript
 import { validate } from 'zelvar-validate';
 
-const validator = validate(7)
-  .custom((value) => value % 2 === 0, 'Number must be even');
+const validator = validate(7).custom((value) => value % 2 === 0, 'Number must be even');
 
-console.log(validator.isValid());  // false
-console.log(validator.getErrors());  // ['Number must be even']
+console.log(validator.isValid()); // false
+console.log(validator.getErrors()); // ['Number must be even']
 ```
 
 ### Reusable Custom Rule Function
@@ -235,10 +228,9 @@ function isDivisibleBy(divisor) {
   return (value) => value % divisor === 0;
 }
 
-const validator = validate(10)
-  .custom(isDivisibleBy(3), 'Must be divisible by 3');
+const validator = validate(10).custom(isDivisibleBy(3), 'Must be divisible by 3');
 
-console.log(validator.isValid());  // false
+console.log(validator.isValid()); // false
 ```
 
 ## Async Validation
@@ -251,10 +243,8 @@ Validate values asynchronously (e.g., checking if email exists in database).
 import { validateAsync } from 'zelvar-validate';
 
 async function checkEmail(email) {
-  const { valid, errors } = await validateAsync(email, (v) =>
-    v.email()
-  );
-  
+  const { valid, errors } = await validateAsync(email, (v) => v.email());
+
   if (!valid) {
     console.log('Invalid email:', errors);
   }
@@ -275,9 +265,9 @@ async function validateUser(email) {
       const exists = await db.users.findOne({ email: value });
       return !exists;
     }, 'Email already taken');
-  
+
   const isValid = await validator.isValidAsync();
-  
+
   return {
     valid: isValid,
     errors: validator.getErrors()
@@ -291,7 +281,7 @@ async function validateUser(email) {
 import { createAsyncValidator } from 'zelvar-validate';
 
 const validator = createAsyncValidator('test@example.com')
-  .addRule(v => v.email())
+  .addRule((v) => v.email())
   .addAsyncRule(async (value) => {
     const exists = await checkDatabase(value);
     return !exists;
@@ -323,7 +313,7 @@ const result = conditional(password, [
   }
 ]);
 
-console.log(result.valid);  // false
+console.log(result.valid); // false
 console.log(result.errors); // ['Password must be at least 8 characters', 'Password must contain uppercase or numbers']
 ```
 
@@ -336,10 +326,16 @@ const isAdmin = true;
 const password = 'admin123';
 
 const validator = validate(password)
-  .if(() => isAdmin, (v) => v.strongPassword())
-  .unless(() => isAdmin, (v) => v.custom(() => false, 'Must be admin'));
+  .if(
+    () => isAdmin,
+    (v) => v.strongPassword()
+  )
+  .unless(
+    () => isAdmin,
+    (v) => v.custom(() => false, 'Must be admin')
+  );
 
-console.log(validator.isValid());  // false if admin and password not strong
+console.log(validator.isValid()); // false if admin and password not strong
 ```
 
 ### Using `createConditionalValidator`
@@ -348,8 +344,14 @@ console.log(validator.isValid());  // false if admin and password not strong
 import { createConditionalValidator } from 'zelvar-validate';
 
 const result = createConditionalValidator('user@example.com')
-  .if(v => v.includes('admin'), v => v.email())
-  .if(v => v.length > 10, v => v.custom(() => false, 'Too long'))
+  .if(
+    (v) => v.includes('admin'),
+    (v) => v.email()
+  )
+  .if(
+    (v) => v.length > 10,
+    (v) => v.custom(() => false, 'Too long')
+  )
   .validate();
 
 console.log(result.valid, result.errors);
@@ -382,7 +384,7 @@ const result = userSchema.validate({
   }
 });
 
-console.log(result.valid);  // false
+console.log(result.valid); // false
 console.log(result.errors);
 // {
 //   'address.city': ['city is required'],
@@ -414,7 +416,7 @@ const userSchema = nestedSchema({
 
 // Validate only provided fields
 const partialResult = userSchema.partial({ email: 'test@example.com' });
-console.log(partialResult.valid);  // true (name not required in partial mode)
+console.log(partialResult.valid); // true (name not required in partial mode)
 ```
 
 ## Batch Validation
@@ -432,8 +434,8 @@ const results = batchValidate([
 ]);
 
 const summary = batchResultSummary(results);
-console.log(summary.allValid);     // false
-console.log(summary.validCount);   // 1 (email is valid)
+console.log(summary.allValid); // false
+console.log(summary.validCount); // 1 (email is valid)
 console.log(summary.invalidCount); // 1 (password invalid)
 console.log(summary.errors);
 // { password: ['Password must contain uppercase, lowercase, number, and symbol'] }
@@ -446,9 +448,14 @@ import { batchValidateAsync } from 'zelvar-validate';
 
 const results = await batchValidateAsync([
   { field: 'email', value: 'test@example.com', rules: (v) => v.email() },
-  { field: 'unique', value: 'taken', rules: (v) => v.customAsync(async (val) => {
-    return await checkUniqueness(val);
-  }, 'Value already taken') }
+  {
+    field: 'unique',
+    value: 'taken',
+    rules: (v) =>
+      v.customAsync(async (val) => {
+        return await checkUniqueness(val);
+      }, 'Value already taken')
+  }
 ]);
 
 console.log(results);
@@ -482,8 +489,10 @@ import { validate, rules, schema, Validator } from 'zelvar-validate';
 const isValid: boolean = rules.email('test@example.com');
 
 // Validator returns typed instance
-const validator: Validator<string> = validate('test')
-  .custom((v) => v.length > 0, 'Required');
+const validator: Validator<string> = validate('test').custom(
+  (v) => v.length > 0,
+  'Required'
+);
 
 // Get typed value
 const value: string = validator.getValue();
@@ -525,7 +534,7 @@ interface ValidationResult<T> {
 }
 
 async function validateEmail(value: string): Promise<ValidationResult<string>> {
-  return await validateAsync(value, v => v.email());
+  return await validateAsync(value, (v) => v.email());
 }
 ```
 
@@ -538,10 +547,10 @@ import { validate } from 'zelvar-validate';
 
 app.post('/register', (req, res) => {
   const { email, password } = req.body;
-  
+
   const emailValid = validate(email).email();
   const passwordValid = validate(password).strongPassword();
-  
+
   if (!emailValid.isValid() || !passwordValid.isValid()) {
     return res.status(400).json({
       errors: {
@@ -550,7 +559,7 @@ app.post('/register', (req, res) => {
       }
     });
   }
-  
+
   // Proceed with registration
   res.json({ message: 'User registered' });
 });
@@ -565,12 +574,12 @@ app.post('/product', (req, res) => {
     price: { type: 'string', required: true },
     category: { type: 'string', required: true }
   });
-  
+
   const result = productSchema.validate(req.body);
   if (!result.valid) {
     return res.status(400).json({ errors: result.errors });
   }
-  
+
   // Proceed
 });
 ```
@@ -584,25 +593,25 @@ import { validate } from 'zelvar-validate';
 function RegistrationForm() {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     const emailValid = validate(formData.email).email();
     const passwordValid = validate(formData.password).strongPassword();
-    
+
     const newErrors = {};
     if (!emailValid.isValid()) newErrors.email = emailValid.getErrors()[0];
     if (!passwordValid.isValid()) newErrors.password = passwordValid.getErrors()[0];
-    
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-    
+
     // Submit form
   };
-  
+
   return (
     <form onSubmit={handleSubmit}>
       <input
@@ -610,14 +619,14 @@ function RegistrationForm() {
         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
       />
       {errors.email && <span className="error">{errors.email}</span>}
-      
+
       <input
         type="password"
         value={formData.password}
         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
       />
       {errors.password && <span className="error">{errors.password}</span>}
-      
+
       <button type="submit">Register</button>
     </form>
   );
@@ -632,19 +641,19 @@ import { validate, schema } from 'zelvar-validate';
 
 export async function POST(request: Request) {
   const body = await request.json();
-  
+
   const userSchema = schema({
     name: { type: 'string', required: true },
     email: { type: 'email', required: true },
     password: { type: 'string', required: true }
   });
-  
+
   const result = userSchema.validate(body);
-  
+
   if (!result.valid) {
     return NextResponse.json({ errors: result.errors }, { status: 400 });
   }
-  
+
   // Create user
   return NextResponse.json({ success: true });
 }
@@ -660,13 +669,13 @@ const app = fastify();
 
 app.post('/login', async (req, reply) => {
   const { email } = req.body;
-  
+
   const validator = validate(email).email();
-  
+
   if (!validator.isValid()) {
     return reply.status(400).send({ error: validator.getErrors() });
   }
-  
+
   return { success: true };
 });
 ```
@@ -703,7 +712,7 @@ import { batchValidate } from 'zelvar-validate/batch';
 </script>
 <script type="module">
   import { validate } from 'zelvar-validate';
-  
+
   const result = validate('test@example.com').email().isValid();
   console.log(result);
 </script>

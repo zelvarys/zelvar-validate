@@ -15,9 +15,7 @@ describe('validateAsync', () => {
   });
 
   it('returns errors and the original value', async () => {
-    const result = await validateAsync('invalid', (validator) =>
-      validator.email()
-    );
+    const result = await validateAsync('invalid', (validator) => validator.email());
 
     expect(result.valid).toBe(false);
     expect(result.errors).toEqual(['Invalid email address']);
@@ -25,11 +23,9 @@ describe('validateAsync', () => {
   });
 
   it('supports custom messages', async () => {
-    const result = await validateAsync(
-      'invalid',
-      (validator) => validator.email(),
-      { email: 'Bad email' }
-    );
+    const result = await validateAsync('invalid', (validator) => validator.email(), {
+      email: 'Bad email'
+    });
 
     expect(result.errors).toEqual(['Bad email']);
   });
