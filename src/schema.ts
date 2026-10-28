@@ -38,9 +38,11 @@ function validateNestedSchema(data: any, definition: SchemaDefinition): Validati
     if (fieldRules.required && (value === undefined || value === null || value === '')) {
       fieldErrors.push(fieldRules.message || `${field} is required`);
       isValid = false;
+      errors[field] = fieldErrors;
+      continue;
     }
 
-    if ((value === undefined || value === null || value === '') && !fieldRules.required) {
+    if (value === undefined || value === null || value === '') {
       continue;
     }
 
