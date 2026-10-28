@@ -5,8 +5,7 @@ Releases run from `.github/workflows/release.yml` when a commit lands on
 
 ## Prepare a release
 
-1. Update `CHANGELOG.md` under `## [Unreleased]`.
-2. Bump the version:
+1. Bump the version:
 
    ```bash
    npm version patch --no-git-tag-version
@@ -14,7 +13,7 @@ Releases run from `.github/workflows/release.yml` when a commit lands on
 
    Use `minor` or `major` when appropriate.
 
-3. Open a pull request and merge it to `main`.
+2. Open a pull request and merge it to `main`.
 
 The workflow compares the version in `package.json` with the existing git tags
 and the npm registry.
@@ -63,5 +62,4 @@ npm run check
 npm pack --dry-run
 ```
 
-The package should contain `dist/`, `README.md`, `LICENSE`, and
-`CHANGELOG.md`.
+The package should contain `dist/`, `README.md`, and `LICENSE`.

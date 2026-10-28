@@ -2,8 +2,6 @@
 
 [![npm version](https://img.shields.io/npm/v/zelvar-validate)](https://www.npmjs.com/package/zelvar-validate)
 [![npm downloads](https://img.shields.io/npm/dt/zelvar-validate)](https://www.npmjs.com/package/zelvar-validate)
-[![CI](https://github.com/zelvarys/zelvar-validate/actions/workflows/ci.yml/badge.svg)](https://github.com/zelvarys/zelvar-validate/actions/workflows/ci.yml)
-[![release](https://img.shields.io/github/v/release/zelvarys/zelvar-validate)](https://github.com/zelvarys/zelvar-validate/releases)
 [![license](https://img.shields.io/npm/l/zelvar-validate)](LICENSE)
 
 Fast, type-safe validation library with async, conditional, nested schema, and batch support. Zero runtime dependencies. Works in Node.js 14 and newer and in modern browsers.
@@ -777,7 +775,9 @@ See [SECURITY.md](SECURITY.md) for details.
 
 ## Support
 
-See [SUPPORT.md](SUPPORT.md) for documentation links and support options.
+Open an issue in the
+[issue tracker](https://github.com/zelvarys/zelvar-validate/issues) for questions
+and bug reports.
 
 ## License
 

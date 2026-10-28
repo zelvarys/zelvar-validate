@@ -3,4 +3,3 @@ dist/
 coverage/
 .vitest/
 package-lock.json
-CHANGELOG.md

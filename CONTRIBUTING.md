@@ -38,7 +38,6 @@ type checking, tests, and package validation.
 - Keep changes focused and describe the behavior that changed.
 - Add tests for new rules, helpers, or bug fixes.
 - Update the README and `docs/` when public behavior changes.
-- Update `CHANGELOG.md` under `## [Unreleased]`.
 - Do not commit generated files from `dist/` or `coverage/`.
 
 ## Commit messages
@@ -58,9 +57,8 @@ chore: update tooling
 Releases are automated by `.github/workflows/release.yml`.
 
 1. Bump the version in `package.json` with `npm version <patch|minor|major>`.
-2. Update `CHANGELOG.md`.
-3. Open a pull request and merge it to `main`.
-4. The release workflow detects the new version, creates the `vX.Y.Z` tag,
+2. Open a pull request and merge it to `main`.
+3. The release workflow detects the new version, creates the `vX.Y.Z` tag,
    publishes to npm, and creates a GitHub Release.
 
 Prerelease versions use the `next`, `beta`, or `rc` npm dist-tag. Stable

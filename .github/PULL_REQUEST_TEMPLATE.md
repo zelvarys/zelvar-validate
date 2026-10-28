@@ -18,6 +18,5 @@ npm run check
 
 - [ ] Tests cover the new or changed behavior
 - [ ] Documentation is updated when public behavior changes
-- [ ] `CHANGELOG.md` is updated under `## [Unreleased]`
 - [ ] `npm run check` passes locally
 - [ ] No generated files from `dist/` or `coverage/` are committed
