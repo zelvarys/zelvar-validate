@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Dual ESM and CommonJS builds with type declarations for every subpath.
+- Vitest test suite with coverage, package validation, and CI automation.
+- Version-aware release workflow for tags, npm publishing, and GitHub Releases.
+- Documentation guides, runnable examples, and community health files.
+
+### Fixed
+
+- `customAsync()` now returns the validator so it can be chained.
+- `createAsyncValidator()` and `createConditionalValidator()` now keep rules
+  across chained calls.
+- Required schema fields no longer also report a type error.
+- `nestedSchema().partial()` now validates only the provided fields.
+- `deepValidate()` now prefixes error messages as documented.
+- IPv6 documentation now passes the required version argument.
+
 ## [1.0.1] - 2026-10-27
 
 ### Added
