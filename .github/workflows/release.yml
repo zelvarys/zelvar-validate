@@ -22,18 +22,28 @@ jobs:
     environment: npm
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 24
-          cache: npm
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
 
-      - name: Use latest npm
-        run: npm install --global npm@latest
+      - name: Use npm with trusted publishing support
+        run: |
+          npm install --global npm@^11
+          npm --version
+          node -e '
+            const [major, minor, patch] = process.argv[1].split(".").map(Number);
+            if (major < 11 || (major === 11 && (minor < 5 || (minor === 5 && patch < 1)))) {
+              console.error("npm 11.5.1 or newer is required for trusted publishing");
+              process.exit(1);
+            }
+          ' "$(npm --version)"
 
       - name: Install dependencies
         run: npm ci
