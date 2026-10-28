@@ -1,6 +1,6 @@
 {
   "name": "zelvar-validate",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Fast and type-safe validation library with async, conditional, nested schema, and batch support",
   "type": "module",
   "main": "./dist/index.cjs",
