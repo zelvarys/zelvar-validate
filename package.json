@@ -125,14 +125,12 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
     "pretest": "npm run build",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "npm run build && vitest run --coverage",
     "check:package": "publint && attw --pack .",
-    "check": "npm run lint && npm run format:check && npm run typecheck && npm test && npm run check:package",
+    "check": "npm run lint && npm run typecheck && npm test && npm run check:package",
     "prepublishOnly": "npm run check"
   },
   "keywords": [
@@ -170,7 +168,6 @@
     "@types/node": "^26.6.5",
     "@vitest/coverage-v8": "^5.0.5",
     "eslint": "^10.13.0",
-    "prettier": "^3.9.10",
     "publint": "^0.3.25",
     "tsup": "^9.0.0",
     "typescript": "^5.9.3",

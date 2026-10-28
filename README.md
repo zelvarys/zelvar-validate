@@ -771,7 +771,7 @@ requests.
 
 Report vulnerabilities privately through
 [GitHub Security Advisories](https://github.com/zelvarys/zelvar-validate/security/advisories/new).
-See [SECURITY.md](SECURITY.md) for details.
+Do not open a public issue for security problems.
 
 ## Support
 
