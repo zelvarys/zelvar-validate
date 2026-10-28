@@ -80,9 +80,11 @@ function validateNestedSchema(data: any, definition: SchemaDefinition): Validati
   return { valid: isValid, errors };
 }
 
-export function schema(schemaDefinition: SchemaDefinition) {
+export function schema<T extends Record<string, any> = Record<string, any>>(
+  schemaDefinition: SchemaDefinition
+) {
   return {
-    validate(data: Record<string, any>): ValidationResult {
+    validate(data: T): ValidationResult {
       return validateNestedSchema(data, schemaDefinition);
     }
   };

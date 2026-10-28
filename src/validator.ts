@@ -22,7 +22,7 @@ export class Validator<T = any> {
     return this;
   }
 
-  async customAsync(rule: (value: T) => Promise<boolean>, message: string): Promise<this> {
+  customAsync(rule: (value: T) => Promise<boolean>, message: string): this {
     this.asyncRules.push({ fn: rule, message });
     return this;
   }
