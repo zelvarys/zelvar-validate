@@ -13,6 +13,9 @@ describe('email', () => {
     expect(rules.email('user@')).toBe(false);
     expect(rules.email('@example.com')).toBe(false);
     expect(rules.email('user@example')).toBe(false);
+    expect(rules.email('user@@example.com')).toBe(false);
+    expect(rules.email('user name@example.com')).toBe(false);
+    expect(rules.email('user@exam ple.com')).toBe(false);
   });
 });
 
@@ -26,6 +29,8 @@ describe('phone', () => {
   it('rejects non-numeric input', () => {
     expect(rules.phone('abc123')).toBe(false);
     expect(rules.phone('')).toBe(false);
+    expect(rules.phone('++123456789')).toBe(false);
+    expect(rules.phone('1234567890123456')).toBe(false);
   });
 });
 
@@ -83,7 +88,15 @@ describe('ip', () => {
 
   it('validates IPv6 when requested', () => {
     expect(rules.ip('::1', 6)).toBe(true);
+    expect(rules.ip('::', 6)).toBe(true);
+    expect(rules.ip('1::', 6)).toBe(true);
     expect(rules.ip('2001:db8::1', 6)).toBe(true);
+    expect(rules.ip('2001:db8:0:0:0:0:0:1', 6)).toBe(true);
+    expect(rules.ip('::ffff:192.168.1.1', 6)).toBe(true);
+    expect(rules.ip('fe80::1%eth0', 6)).toBe(true);
     expect(rules.ip('192.168.1.1', 6)).toBe(false);
+    expect(rules.ip('1::2::3', 6)).toBe(false);
+    expect(rules.ip('1:2:3:4:5:6:7', 6)).toBe(false);
+    expect(rules.ip('1:2:3:4:5:6:7:8:9', 6)).toBe(false);
   });
 });
