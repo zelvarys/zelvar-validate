@@ -79,10 +79,6 @@ jobs:
         if: steps.state.outputs.should_run == 'true'
         run: npm run lint
 
-      - name: Check formatting
-        if: steps.state.outputs.should_run == 'true'
-        run: npm run format:check
-
       - name: Type check
         if: steps.state.outputs.should_run == 'true'
         run: npm run typecheck

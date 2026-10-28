@@ -24,14 +24,12 @@ npm install
 | `npm run dev`           | Rebuild on file changes                        |
 | `npm run typecheck`     | Run TypeScript without emitting files          |
 | `npm run lint`          | Run ESLint                                     |
-| `npm run format`        | Format files with Prettier                     |
-| `npm run format:check`  | Check formatting without writing files         |
 | `npm test`              | Build the package and run the Vitest suites    |
 | `npm run test:coverage` | Build, run tests, and collect coverage         |
 | `npm run check:package` | Validate package exports and type declarations |
 
-Run `npm run check` before opening a pull request. It runs linting, formatting,
-type checking, tests, and package validation.
+Run `npm run check` before opening a pull request. It runs linting, type
+checking, tests, and package validation.
 
 ## Pull requests
 
@@ -67,4 +65,6 @@ versions update the `latest` dist-tag.
 ## Reporting bugs
 
 Open an issue with a minimal reproduction, the expected result, the actual
-result, and your Node.js version. For security issues, follow `SECURITY.md`.
+result, and your Node.js version. For security issues, use
+[GitHub Security Advisories](https://github.com/zelvarys/zelvar-validate/security/advisories/new)
+instead of opening a public issue.
