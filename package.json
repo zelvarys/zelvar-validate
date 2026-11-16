@@ -170,7 +170,7 @@
     "eslint": "^10.13.0",
     "publint": "^0.3.25",
     "tsup": "^9.0.0",
-    "typescript": "^5.9.3",
+    "typescript": "^7.0.2",
     "typescript-eslint": "^8.72.1",
     "vitest": "^5.0.5"
   },
